@@ -1,5 +1,7 @@
 
 
+
+
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var assembly = typeof(Program).Assembly;
@@ -20,6 +22,9 @@ builder.Services.AddMarten(config =>
 {
     config.Connection(builder.Configuration.GetConnectionString("CatalogDb")!);
 }).UseLightweightSessions();
+
+if (builder.Environment.IsDevelopment())
+    builder.Services.InitializeMartenWith<CatalogInitialData>();
 
 builder.Services.AddExceptionHandler<CustomerExceptionHandler>();
 

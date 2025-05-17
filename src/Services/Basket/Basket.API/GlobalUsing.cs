@@ -7,3 +7,13 @@ global using MediatR;
 global using Mapster;
 
 global using FluentValidation;
+
+global using BuildingBlocks.Behaviors;
+global using BuildingBlocks.Exceptions.Handler;
+
+global using BuildingBlocks.Exceptions;
+global using Marten;
+global using Basket.API.Exceptions;
+global using Marten.Schema;
+
+global using Basket.API.Data;

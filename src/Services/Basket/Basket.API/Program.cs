@@ -1,6 +1,4 @@
-using BuildingBlocks.Behaviors;
-using BuildingBlocks.Exceptions.Handler;
-using Carter;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,13 +16,15 @@ builder.Services.AddValidatorsFromAssembly(assembly);
 
 builder.Services.AddCarter();
 
-//builder.Services.AddMarten(config =>
-//{
-//    config.Connection(builder.Configuration.GetConnectionString("CatalogDb")!);
-//}).UseLightweightSessions();
+builder.Services.AddMarten(config =>
+{
+    config.Connection(builder.Configuration.GetConnectionString("BasketDb")!);
+}).UseLightweightSessions();
 
 //if (builder.Environment.IsDevelopment())
 //    builder.Services.InitializeMartenWith<CatalogInitialData>();
+
+builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 
 builder.Services.AddExceptionHandler<CustomerExceptionHandler>();
 

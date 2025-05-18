@@ -26,6 +26,19 @@ builder.Services.AddMarten(config =>
 
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 
+builder.Services.Decorate<IBasketRepository, CachedBasketRepository>();
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration["Redis"];
+    //options.InstanceName = builder.Configuration["Redis:InstanceName"];
+});
+
+//builder.Services.AddScoped<IBasketRepository>(provider => { 
+//    var baskedRepo = provider.GetRequiredService<BasketRepository>();
+//    return new CachedBasketRepository(baskedRepo, provider.GetRequiredService<IDistributedCache>());
+//});
+
 builder.Services.AddExceptionHandler<CustomerExceptionHandler>();
 
 //builder.Services.AddHealthChecks().AddNpgSql(builder.Configuration.GetConnectionString("CatalogDb")!);

@@ -1,5 +1,7 @@
 
 
+using HealthChecks.UI.Client;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var assembly = typeof(Program).Assembly;
@@ -41,7 +43,8 @@ builder.Services.AddStackExchangeRedisCache(options =>
 
 builder.Services.AddExceptionHandler<CustomerExceptionHandler>();
 
-//builder.Services.AddHealthChecks().AddNpgSql(builder.Configuration.GetConnectionString("CatalogDb")!);
+builder.Services.AddHealthChecks().AddNpgSql(builder.Configuration.GetConnectionString("BasketDb")!)
+                                  .AddRedis(builder.Configuration.GetConnectionString("Redis")!);
 
 var app = builder.Build();
 
@@ -51,11 +54,11 @@ app.UseExceptionHandler(options => {
 
 });
 
-//app.UseHealthChecks("/health",
-//    new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
-//    {
-//        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-//    });
+app.UseHealthChecks("/health",
+    new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+    {
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    });
 
 app.Run();
 

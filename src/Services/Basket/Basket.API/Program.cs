@@ -1,5 +1,6 @@
 
 
+using Discount.Grpc;
 using HealthChecks.UI.Client;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,10 +37,24 @@ builder.Services.AddStackExchangeRedisCache(options =>
     //options.InstanceName = builder.Configuration["Redis:InstanceName"];
 });
 
+
 //builder.Services.AddScoped<IBasketRepository>(provider => { 
 //    var baskedRepo = provider.GetRequiredService<BasketRepository>();
 //    return new CachedBasketRepository(baskedRepo, provider.GetRequiredService<IDistributedCache>());
 //});
+
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(options =>
+{
+    options.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
+})
+.ConfigureAdditionalHttpMessageHandlers(() =>
+{
+    var handler = new HttpClientHandler
+    {
+        ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+    };
+    return handler;
+});
 
 builder.Services.AddExceptionHandler<CustomerExceptionHandler>();
 

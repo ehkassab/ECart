@@ -2,7 +2,7 @@
 namespace Basket.API.Basket.StoreBasket
 {
 
-    public record StoreBasketCommand(ShoppingCart Cart);
+    public record StoreBasketRequest(ShoppingCart Cart);
 
     public record StoreBasketResult(string UserName);
 

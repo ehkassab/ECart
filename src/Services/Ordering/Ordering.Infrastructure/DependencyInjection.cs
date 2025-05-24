@@ -1,10 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace Ordering.Infrastructure
 {
@@ -12,7 +6,8 @@ namespace Ordering.Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            var connectionString = configuration.GetConnectionString("OrderDb");
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
             return services;
         }
     }

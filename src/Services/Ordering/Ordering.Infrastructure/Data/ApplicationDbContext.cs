@@ -1,8 +1,4 @@
 ﻿
-using Microsoft.EntityFrameworkCore;
-using Ordering.Domain.Models;
-using System.Reflection;
-
 namespace Ordering.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext
@@ -19,6 +15,7 @@ namespace Ordering.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Address>().OwnsOne(x => x.FirstName);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
         }

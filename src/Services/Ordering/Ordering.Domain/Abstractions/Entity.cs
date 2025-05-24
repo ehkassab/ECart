@@ -9,6 +9,4 @@ namespace Ordering.Domain.Abstractions
         public string? CreatedBy { get; set; }
         public string? UpdatedBy { get; set; }
     }
-    {
-    }
 }
